@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { Device } from './entities/device.entity';
@@ -19,7 +19,22 @@ export class DeviceService {
   }
 
   async findAll() : Promise<Device[]>{
-    return this.deviceRepository.find({relations: ['category']});
+    let devices: Device[];
+    try{
+      devices = await this.deviceRepository.find({relations: ['category']});
+
+      let response;
+      if (devices.length>0){
+        response = {
+        data: devices,
+        }
+      } else {
+        response = {data: []}
+      }
+      return response
+    } catch (error){
+      throw new InternalServerErrorException(error);
+    }
   }
 
   async findOne(id: number) : Promise<Device> {
