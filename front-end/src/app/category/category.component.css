@@ -1,0 +1,59 @@
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.mat-table
+{
+  background-color:white;
+  border-top-left-radius: 2em;
+  border-top-right-radius: 2em;
+  overflow:hidden !important;
+}
+
+header {
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  border-radius: 2em;
+  margin: 0 12px;
+}
+
+
+.mat-header-cell {
+  background-color: #1258ee;
+  color: white;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 16px;
+  display:flex;
+  align-items: center;
+  width:auto;
+  vertical-align:super;
+  margin-right: 10px;
+}
+
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-container .mat-form-field {
+  width: 220px;
+}
+
+.example-container form {
+  margin-bottom: 20px;
+}
+
+.example-container form > * {
+  margin: 5px 0;
+}
+
+.example-container .mat-radio-button {
+  margin: 0 12px;
+}
+

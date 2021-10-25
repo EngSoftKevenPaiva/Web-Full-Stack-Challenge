@@ -1,0 +1,114 @@
+<router-outlet></router-outlet>
+
+<body>
+  <div style="margin-right: 1%; margin-left: 1%">
+    <mat-card>
+      <section>
+        <header>
+          <form
+            id="deviceForm"
+            [formGroup]="deviceForm"
+            (submit)="createDevice()">
+            <mat-grid-list cols="3" rowHeight="100px">
+            <mat-grid-tile>
+              <mat-form-field appearance="fill" >
+                  <input
+                    matInput
+                    #color
+                    maxlength="16"
+                    placeholder="Color"
+                    formControlName="color"
+                    class="form-control"
+                  />
+                  <mat-hint align="end"
+                    >{{ color.value.length }} / 16
+                  </mat-hint>
+                  <mat-error *ngIf="deviceForm.get('color')?.errors?.required"
+                    >You must enter a value</mat-error
+                  >
+                </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                <mat-form-field appearance="fill" >
+                  <input
+                    matInput
+                    #partNumber
+                    type="number"
+                    min="0"
+                    placeholder="Part Number"
+                    formControlName="partNumber"
+                    class="form-control"
+                  />
+                  <mat-error *ngIf="deviceForm.get('partNumber')?.errors?.required"
+                    >You must enter a value</mat-error
+                  >
+                </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                <mat-form-field appearance="fill">
+                <mat-select [(ngModel)]="category" formControlName="category" class="form-control">
+                  <mat-option *ngFor="let category of listAllCategories$ | async" [value]="category" >
+                    {{category.name}}
+                  </mat-option>
+                </mat-select>
+                </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile  [colspan]="3" [rowspan]="1">
+              <button
+                  class="example-button"
+                  mat-raised-button
+                  type="submit"
+                  [disabled]="deviceForm.invalid"
+                  color="primary"
+                >Add Device
+              </button>
+              </mat-grid-tile>
+              </mat-grid-list>
+          </form>
+        </header>
+
+        <article>
+          <table
+            mat-table
+            [dataSource]="listAllDevices$ | async"
+            multiTemplateDataRows
+            matSort
+          >
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef class="bg-primary" >Id</th>
+              <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+            </ng-container>
+            <ng-container matColumnDef="color">
+              <th mat-header-cell *matHeaderCellDef class="bg-primary">Color</th>
+              <td mat-cell *matCellDef="let element">{{ element.color }}</td>
+            </ng-container>
+            <ng-container matColumnDef="partNumber">
+              <th mat-header-cell *matHeaderCellDef class="bg-primary">Part Number</th>
+              <td mat-cell *matCellDef="let element">{{ element.partNumber }}</td>
+            </ng-container>
+            <ng-container matColumnDef="category">
+              <th mat-header-cell *matHeaderCellDef class="bg-primary">Category</th>
+              <td mat-cell *matCellDef="let element">{{ element.category.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="delete">
+              <th mat-header-cell *matHeaderCellDef class="bg-primary"></th>
+              <td mat-cell *matCellDef="let row" [style.color]="'#0F6955'">
+                <button
+                  class="example-button"
+                  mat-raised-button
+                  type="submit"
+                  color="primary"
+                  (click)="deleteDevice(row.id)"
+                >
+                  Delete
+                </button>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </article>
+      </section>
+    </mat-card>
+  </div>
+</body>
